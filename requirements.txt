@@ -1,0 +1,6 @@
+google_trans_new
+gtts
+newspaper3k
+textblob
+streamlit
+wikipedia
