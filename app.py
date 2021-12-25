@@ -36,7 +36,7 @@ def main():
 
     st.markdown(subheader_templ,unsafe_allow_html=True)
 
-    st.sidebar.image("https://cdn.embed.ly/providers/logos/megafono.png", use_column_width=True)
+    #st.sidebar.image("https://cdn.embed.ly/providers/logos/megafono.png", use_column_width=True)
 
     translator = google_translator()
 
@@ -44,14 +44,10 @@ def main():
     choice = st.sidebar.selectbox("Menu",activity)
 
     lang_dict = {'English':'en', 'Vietnamese':'vi', 'German':'de', 'Telugu':'te','Hindi':'hi','Bengali':'bn','Italian':'it'}
-
+    lang = st.sidebar.selectbox('Select a language',('English', 'Vietnamese', 'German', 'Telugu', 'Hindi','Bengali','English','Italian'))
 
     if choice == 'Wikipedia':
-
         st.subheader("Article from Wikipedia")
-
-        lang = st.sidebar.selectbox('Select a language for the search',('English', 'Vietnamese', 'German', 'Telugu', 'Hindi','Bengali','English','Italian'))
-
         lan = lang_dict[lang]
 
         wikipedia.set_lang(lan)
@@ -87,11 +83,11 @@ def main():
                     st.warning("No Match any Page, Select another one...")
               
     elif choice == "Your sentence":
-        yourtext = st.sidebar.text_area("What do you want Google to read for you")
+        yourtext = st.sidebar.text_area("Input your sentence here", "From ngattt with love")
         if len(yourtext) == 0:
-            st.warning("Enter a Topic...")
+            st.warning("Enter a sentence...")
         try:
-            ta_tts = gTTS(yourtext)
+            ta_tts = gTTS(yourtext, lang=lang_dict[lang])
             ta_tts.save("trans.mp3")
             audio_file = open("trans.mp3", "rb")
             audio_bytes = audio_file.read()
