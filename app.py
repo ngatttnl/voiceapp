@@ -59,16 +59,14 @@ def main():
         </nav>
             """, unsafe_allow_html=True)
 
-    activity = ["Text to Voice", "Play Audio", "About"]
-    choice = st.sidebar.selectbox("Menu", activity)
+    activity = ["Translate", "Text to Voice", "Play Audio", "About"]
+    choice = st.sidebar.radio("Menu", activity)
 
-    langlist = list(LANGUAGES.values())
     lang_dict = {'English':'en', 'Vietnamese':'vi', 'German':'de', 'Italian':'it'}
     lang = st.sidebar.selectbox('Select input language',('English', 'Vietnamese', 'German', 'Italian'))
-
-    to_lang = st.sidebar.selectbox('Select output language',('Vietnamese', 'English', 'German', 'Italian'))
     
-    if choice == "Text to Voice":
+    if choice == "Translate":
+        to_lang = st.sidebar.selectbox('Select output language',('Vietnamese', 'English', 'German', 'Italian'))
         yourtext = st.text_area("Please input your sentences here:", value="Here is example text", height = 200, key=1, placeholder="Input your sentences here")
         #yourtext2= st.sidebar.text_area("Input your sentence here", key=2, placeholder="Input your sentence here")
         #yourtext3 = st.sidebar.text_area("Input your sentence here", key=3, placeholder="Input your sentence here")
@@ -96,8 +94,27 @@ def main():
      
         except:
             st.warning("Welcome to our Text-To-Voice app")
+    elif choice =='Text to Voice':
+        story = "You can never understand one language until you understand at least two."
+        yourtext = st.text_area("Please input your sentences here:", value=story, height = 200, key=1, placeholder="Input your sentences here")
+        if len(yourtext)  == 0:
+            st.warning("Enter your sentences...")
+        try:
+            lang=lang_dict[lang]
+             
+            ta_tts1 = gTTS(yourtext, lang=lang)
 
-    if choice == 'Play Audio':
+            ta_tts1.save("textToVoice.mp3")
+
+            audio_file1 = open("textToVoice.mp3", "rb")
+            audio_bytes1 = audio_file1.read()
+            st.audio(audio_bytes1, format='audio/ogg',start_time=0)
+            
+            st.markdown(get_binary_file_downloader_html('textToVoice.mp3', 'Audio'), unsafe_allow_html=True)
+     
+        except:
+            st.warning("Welcome to our Text-To-Voice app")
+    elif choice == 'Play Audio':
 
         st.subheader("Play Your MP3 translation")
         #if st.button("Play"):
