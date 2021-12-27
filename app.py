@@ -5,18 +5,12 @@ st.set_page_config(page_title="Text-To-Voice", layout='centered', initial_sideba
 
 from newspaper import Article
 import wikipedia
-from google_trans_new import google_translator # Translation Pkg
 
 from gtts import gTTS
-
-# Email Pkg
-import smtplib
 import os
 import base64
 
-def translation(text, lang):
-	translator = google_translator()
-	return translator.translate(text, lang_tgt=lang)
+from googletrans import Translator, LANGUAGES
 
 def main():
     """App for Web Articles and Wikipedia Pages Retrieval and Summarization.
@@ -65,29 +59,32 @@ def main():
         </nav>
             """, unsafe_allow_html=True)
 
-    translator = google_translator()
-
     activity = ["Text to Voice", "Play Audio", "About"]
     choice = st.sidebar.selectbox("Menu", activity)
 
+    langlist = list(LANGUAGES.values())
     lang_dict = {'English':'en', 'Vietnamese':'vi', 'German':'de', 'Italian':'it'}
     lang = st.sidebar.selectbox('Select input language',('English', 'Vietnamese', 'German', 'Italian'))
 
-    #outputLang = st.sidebar.selectbox('Select output language',('Vietnamese', 'English', 'German', 'Telugu', 'Hindi','Bengali','English','Italian'))
+    to_lang = st.sidebar.selectbox('Select output language',('Vietnamese', 'English', 'German', 'Italian'))
     
     if choice == "Text to Voice":
-        yourtext1 = st.text_area("Input your sentences here", height = 300, key=1, placeholder="Input your sentences here")
+        yourtext = st.text_area("Please input your sentences here:", value="Here is example text", height = 200, key=1, placeholder="Input your sentences here")
         #yourtext2= st.sidebar.text_area("Input your sentence here", key=2, placeholder="Input your sentence here")
         #yourtext3 = st.sidebar.text_area("Input your sentence here", key=3, placeholder="Input your sentence here")
         #yourtext4 = st.sidebar.text_area("Input your sentence here", key=4, placeholder="Input your sentence here")
-        if len(yourtext1)  == 0:
-            st.warning("Enter a sentence...")
+        if len(yourtext)  == 0:
+            st.warning("Enter your sentences...")
         try:
             lang=lang_dict[lang]
-            #outputLang = lang_dict[outputLang]
-            #tranlatedText = translator.translate(yourtext,lang_src=lang,lang_tgt=outputLang)
-            #print(tranlatedText)
-            ta_tts1 = gTTS(yourtext1, lang=lang)
+            to_lang = lang_dict[to_lang]
+            
+            translator = Translator()
+            text_to_translate = translator.translate(yourtext, src=lang, dest=to_lang)
+            translated_text = text_to_translate.text
+            
+            st.info(str(translated_text))
+            ta_tts1 = gTTS(translated_text, lang=to_lang)
 
             ta_tts1.save("trans1.mp3")
 
