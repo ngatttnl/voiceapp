@@ -6,3 +6,5 @@ streamlit
 wikipedia
 st-annotated-text
 googletrans==3.1.0a0
+pysqlite3
+streamlit-quill
