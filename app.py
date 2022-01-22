@@ -1,9 +1,10 @@
 
 from multiapp import MultiApp
-from apps import topic, vocab, translate, text_to_voice
+from apps import leaning, topic, vocab, translate, text_to_voice
 app = MultiApp()
 
 # Add all your application here
+app.add_app("Learning", leaning.app)
 app.add_app("Vocabulary", vocab.app)
 app.add_app("Topic", topic.app)
 

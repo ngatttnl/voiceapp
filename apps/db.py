@@ -26,6 +26,17 @@ def create_table_topic():
 	conn, c = connect()
 	c.execute('CREATE TABLE IF NOT EXISTS topic(ID INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description text)')
 	c.close()
+def get_topics():
+	conn, c = connect()
+	data = ""
+	try:
+		c.execute('SELECT id, name FROM topic')
+		data = c.fetchall()
+	except:
+		create_table_topic()
+		print("Can't open database")
+	c.close()
+	return data
 
 def view_all_topic():
 	conn, c = connect()
@@ -61,20 +72,43 @@ def edit_topic(name, id):
 #Vocab
 def create_table_vocab():
 	conn, c = connect()
-	c.execute('CREATE TABLE IF NOT EXISTS vocab(word text, spelling TEXT, meaning TEXT, topic text, language text)')
+	c.execute('CREATE TABLE IF NOT EXISTS vocab(ID INTEGER PRIMARY KEY AUTOINCREMENT, word text, spelling text, topic int)')
 	c.close()
 
-def add_vocab(word, spelling, meaning, topic, language):
+def add_vocab(word, topic):
 	conn, c = connect()
-	c.execute('INSERT INTO vocab(word, spelling, meaning, topic, language) VALUES (?,?,?,?,?)',(word, spelling, meaning, topic, language))
+	c.execute('INSERT INTO vocab(word, topic) VALUES (?,?)',(word, topic))
 	conn.commit()
 	c.close()
+
+def get_vocab_by_topic(id_topic):
+	conn, c = connect()
+	data = ""
+	try:
+		c.execute('SELECT id, word FROM VOCAB where topic = "{}" order by word'.format(id_topic))
+		data = c.fetchall()
+	except:
+		print("Can't open database")
+	c.close()
+	return data
 
 def view_all_vocab():
 	conn, c = connect()
 	data = ""
 	try:
-		c.execute('SELECT word, spelling, meaning, name FROM VOCAB inner join TOPIC on VOCAB.topic = TOPIC.id')
+		c.execute('SELECT id, word, name FROM VOCAB inner join TOPIC on VOCAB.topic = TOPIC.id order by word')
+		data = c.fetchall()
+	except:
+		create_table_vocab()
+		print("Can't open database")
+	c.close()
+	return data
+
+def view_vocab_by_topic(id_topic):
+	conn, c = connect()
+	data = ""
+	try:
+		c.execute('SELECT word FROM VOCAB where topic = "{}" order by word'.format(id_topic))
 		data = c.fetchall()
 	except:
 		create_table_vocab()
@@ -95,9 +129,9 @@ def delete_vocab(id):
 	conn.commit()
 	c.close()
 
-def edit_vocab(content, topic, id):
+def edit_vocab(old_word, new_word, topic):
 	conn, c = connect()
-	c.execute('UPDATE vocab set content =?, topic = ? WHERE id=?', (content, topic, id))
+	c.execute('UPDATE vocab set word = ?, topic = ? WHERE word=?', (new_word, topic, old_word))
 	conn.commit()
 	c.close()
 
