@@ -78,7 +78,7 @@ class MultiApp:
                     padding-left: 20px;
                     padding-right: 20px;
                     padding-top: 15px;
-                    padding-bottom: 15px;
+                    padding-bottom: 1px;
                     display: flex;
                     align-items: center;
                 }
@@ -211,7 +211,7 @@ class MultiApp:
         PINNED_NAV_STYLE = """
             <style>
             .sidebar{
-                padding-top: 3rem;
+                padding-top: 1rem;
             }
             .reportview-container .sidebar-content {
                 padding-top: 0rem;
