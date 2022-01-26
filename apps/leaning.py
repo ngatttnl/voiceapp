@@ -46,12 +46,13 @@ def app():
             for i in range(len(df.index)):
                 col1, col2, col3, col4, col5, col6 = st.columns([1, 2, 2, 2, 2, 2])
                 word = df.iloc[i][0]
+                spelling = df.iloc[i][1]
                 translated_text = ''
                 filename = "mp3/" + to_lang + "/" + str(word) + ".mp3"
                 with col1:
                     st.write(i+1)
                 with col2:
-                    st.write(word)
+                    st.write(word + " /" + spelling + "/")
                 with col3:
                     filename_en = "mp3/en/" + str(word) + ".mp3"
                     #ta_tts1 = gTTS(word)
