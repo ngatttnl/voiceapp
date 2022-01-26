@@ -9,27 +9,28 @@ from googletrans import Translator, LANGUAGES
 from PIL import Image
 import os
 
+#@st.cache
+#def trans_make_audio(word, country):
+
 def app():
     menu = ["List Vocabulary", "Add Vocabulary", "Edit Vocabulary", "Delete Vocabulary"]
     choice = st.sidebar.selectbox("Menu", menu)
-    countries = ['Chinese', 'Danish', 'Dutch', 'English', 'French', 'Filipino', 'German', 'Japanese', 'Korean', 'Norwegian', 'Russian', 'Spanish', 'Swedish', 'Italian', 'Vietnamese']
-    lang_dict = {'Dutch':'nl', 'Russian':'da', 'Danish':'da', 'Korean':'ko', 'Korean':'ko', 'Filipino':'fi', 'Norwegian':'no', 'swedish':'sv', 'Chinese':'zh-tw', 'English':'en', 'Vietnamese':'vi', 'German':'de', 'Janpanese':'ja', 'French':'fr', 'Spanish':'es', 'Italian':'it'}
+    countries = ['English', 'French', 'German', 'Korean', 'Spanish', 'Swedish', 'Italian', 'Vietnamese']
+    lang_dict = {'Korean':'ko', 'Swedish':'sv', 'English':'en', 'Vietnamese':'vi', 'German':'de', 'French':'fr', 'Spanish':'es', 'Italian':'it'}
+    
     #lang = st.sidebar.selectbox('Select input language', countries, list(countries).index('English'))
     to_lang = st.sidebar.selectbox('Select language', countries, list(countries).index('Vietnamese'))
     lang='en' #lang_dict[lang]
     to_lang = lang_dict[to_lang]
 
-    #print(word + lang + to_lang)
-    
     dfTopic = pd.DataFrame(get_topics(), columns=['ID', 'Name'])
     dfTopic = dfTopic.sort_values(by=['Name']) 
     topics = dfTopic.set_index(['ID'])['Name'].to_dict()
     idTopic = st.selectbox("Select topic:", options=topics, format_func=lambda x:topics[ x ])
     if choice=="List Vocabulary": 
-       
         try:  
             st.header("Words list")
-            df = pd.DataFrame(view_vocab_by_topic(idTopic), columns=['Word'])         
+            df = pd.DataFrame(view_vocab_by_topic(idTopic), columns=['Word', 'Spelling'])         
             st.table(df)
             """if len(df.index>0):
                 col1, col2, col3, col4, col5 = st.columns([1, 2, 3, 2, 2])
@@ -70,29 +71,21 @@ def app():
                 st.write("No data!")
             """   
         except:
-                st.warning("Something went wrong!")
+            st.warning("Something went wrong!")
     elif choice=="Add Vocabulary":  
-                 
         word = st.text_input("Enter a word: ", max_chars=100)
-        spelling = '' #st.text_input("Enter spelling of the word: ", max_chars=100)
-        #meaning = st.text_input("Enter meaning of the word: ", max_chars=200)
-        #language = st.session_state.key
-    
-        #content = st_quill(html=True)  # Spawn a new Quill editor
+        spelling = st.text_input("Enter a spelling: ", max_chars=100)
         #st.warning("You can't add vocabs now!") 
-        #if st.button("Add"):
-        if word!="":
-            try: 
-                add_vocab(word, idTopic)
-                """filename = "mp3/" + str(word) + ".mp3"
-                if not os.path.isfile(filename):
-                    ta_tts1 = gTTS(word)
-                    ta_tts1.save(filename)
-                """
+        if st.button("Add"):
+            try:             
+                add_vocab(word, spelling, idTopic)
+                filename_en = "mp3/en/" + str(word) + ".mp3"
+                ta_tts1 = gTTS(word)
+                ta_tts1.save(filename_en)
             except:
                 st.warning("Something went wrong!")
         st.header("Words list")
-        df = pd.DataFrame(view_vocab_by_topic(idTopic), columns=['Word'])         
+        df = pd.DataFrame(view_vocab_by_topic(idTopic), columns=['Word', 'Spelling'])         
         st.table(df)  
     elif choice=="Edit Vocabulary":
         st.subheader("Edit Vocabulary")
@@ -111,14 +104,14 @@ def app():
 
         word = st.text_input("Enter a word: ", max_chars=100)
         spelling = st.text_input("Enter spelling of the word: ", max_chars=100)
-        meaning = st.text_input("Enter meaning of the word: ", max_chars=200)
+        
         #content = st_quill(value= dfContent.iloc[0]['Content'], html=True)  # Spawn a new Quill editor 
         #st.warning("You can't edit vocab now!")
         
         if st.button("Edit"):
             #newContent = content.replace('"', '###')
             #print(newContent)
-            edit_vocab(old_word, word, spelling, meaning, idTopic)
+            edit_vocab(old_word, word, spelling, idTopic)
             filename = "mp3/" + str(word) + ".mp3"
             if not os.path.isfile(filename):
                 ta_tts1 = gTTS(word, lang=lang)

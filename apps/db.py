@@ -30,7 +30,7 @@ def get_topics():
 	conn, c = connect()
 	data = ""
 	try:
-		c.execute('SELECT id, name FROM topic')
+		c.execute('SELECT id, name FROM topic order by name')
 		data = c.fetchall()
 	except:
 		create_table_topic()
@@ -75,9 +75,9 @@ def create_table_vocab():
 	c.execute('CREATE TABLE IF NOT EXISTS vocab(ID INTEGER PRIMARY KEY AUTOINCREMENT, word text, spelling text, topic int)')
 	c.close()
 
-def add_vocab(word, topic):
+def add_vocab(word, spelling, topic):
 	conn, c = connect()
-	c.execute('INSERT INTO vocab(word, topic) VALUES (?,?)',(word, topic))
+	c.execute('INSERT INTO vocab(word, spelling, topic) VALUES (?,?,?)',(word, spelling, topic))
 	conn.commit()
 	c.close()
 
@@ -108,7 +108,7 @@ def view_vocab_by_topic(id_topic):
 	conn, c = connect()
 	data = ""
 	try:
-		c.execute('SELECT word FROM VOCAB where topic = "{}" order by word'.format(id_topic))
+		c.execute('SELECT word, spelling FROM VOCAB where topic = "{}" order by word'.format(id_topic))
 		data = c.fetchall()
 	except:
 		create_table_vocab()
@@ -129,9 +129,9 @@ def delete_vocab(id):
 	conn.commit()
 	c.close()
 
-def edit_vocab(old_word, new_word, topic):
+def edit_vocab(old_word, new_word, spelling, topic):
 	conn, c = connect()
-	c.execute('UPDATE vocab set word = ?, topic = ? WHERE word=?', (new_word, topic, old_word))
+	c.execute('UPDATE vocab set word = ?, spelling = ?, topic = ? WHERE word=?', (new_word, spelling, topic, old_word))
 	conn.commit()
 	c.close()
 

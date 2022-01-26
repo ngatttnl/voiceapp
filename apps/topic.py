@@ -1,4 +1,5 @@
 
+from operator import index
 import streamlit as st
 from apps.db import *
 import pandas as pd
@@ -13,32 +14,28 @@ def app():
     
     if choice=="List Topic":
         try:
-            result = view_all_topic()
-            #print(result)
-            count = 0
-            for i in result:
-                count = count + 1
-                name = i[1]       
-                
-                html_content2 = f"""
-                <div>{name}</div>
-                """
-                st.markdown(html_content2, unsafe_allow_html=True)
+            st.header("Topic list")
+            df = pd.DataFrame(get_topics(), columns=['ID', 'Name']) 
+            df.style.hide_index()        
+            st.table(df)
         except:
-                st.warning("Something went wrong!")
+            st.warning("Something went wrong!")
                 
     elif choice=="Add Topic":
         name = st.text_input("Topic name: ", max_chars=200)
         #st.warning("You can't add topics now!") 
-        if st.button("Add"):
+        #if st.button("Add"):
+        if name!="":
             try:
-                if name!="":
-                    add_topic(name)
-                    st.success("Saved: " + str(name))
-                else:
-                    st.warning("Topic name is not empty!")
+                
+                add_topic(name)
+                st.success("Saved: " + str(name))
+                
             except:
                 st.warning("Something went wrong!")
+        st.header("Topic list")
+        df = pd.DataFrame(get_topics(), columns=['ID', 'Name'])   
+        st.table(df.style.hide_index())
         
     elif choice=="Edit Topic":
         st.subheader("Edit Topic")
@@ -58,6 +55,9 @@ def app():
         if st.button("Edit"):
             edit_topic(topic, idTopic)
             st.warning("Edited: '{}'".format(idTopic))
+        st.header("Topic list")
+        df = pd.DataFrame(get_topics(), columns=['ID', 'Name'])   
+        st.table(df.style.hide_index())
         
     elif choice=="Delete Topic":
         st.subheader("Delete Topic")
