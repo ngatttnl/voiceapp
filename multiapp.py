@@ -46,16 +46,17 @@ class MultiApp:
         st.set_page_config(page_title = "Text To Speech App", layout="wide")
         #space because of menu
         menu_div = """
-            <div style="padding-top: 5rem;">
+            <div style="padding-top: 1rem;">
                 &nbsp;
             </div>
         """
-        st.markdown(menu_div, unsafe_allow_html=True)
+        #st.markdown(menu_div, unsafe_allow_html=True)
         #language menu
-        languages = {"vi_VN": "Việt Nam", "en": "English", "de_DE": "Deutsch"}
+        """languages = {"vi_VN": "Việt Nam", "en": "English", "de_DE": "Deutsch"}
         if 'key' not in st.session_state:
             st.session_state['key'] = 'en'
         st.session_state['key'] = st.sidebar.selectbox("Select language", languages.keys(), format_func=lambda x:languages[ x ])   
+        """
         #top-menu
         css_menu="""
             <style>
