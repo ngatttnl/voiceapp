@@ -6,14 +6,17 @@ import pandas as pd
 from streamlit_quill import st_quill
 from gtts import gTTS
 from googletrans import Translator, LANGUAGES
-from PIL import Image
 import os
 
 #@st.cache
 #def trans_make_audio(word, country):
+def clear_form():
+    st.session_state["word"] = ""
+    st.session_state["spelling"] = ""
+    
 
 def app():
-    menu = ["List Vocabulary", "Add Vocabulary", "Edit Vocabulary", "Delete Vocabulary"]
+    menu = ["Add Vocabulary", "List Vocabulary", "Edit Vocabulary", "Delete Vocabulary"]
     choice = st.sidebar.selectbox("Menu", menu)
     countries = ['English', 'French', 'German', 'Korean', 'Spanish', 'Swedish', 'Italian', 'Vietnamese']
     lang_dict = {'Korean':'ko', 'Swedish':'sv', 'English':'en', 'Vietnamese':'vi', 'German':'de', 'French':'fr', 'Spanish':'es', 'Italian':'it'}
@@ -73,51 +76,68 @@ def app():
         except:
             st.warning("Something went wrong!")
     elif choice=="Add Vocabulary":  
-        word = st.text_input("Enter a word: ", max_chars=100)
-        spelling = st.text_input("Enter a spelling: ", max_chars=100)
-        #st.warning("You can't add vocabs now!") 
-        if st.button("Add"):
-            try:             
-                add_vocab(word, spelling, idTopic)
-                filename_en = "mp3/en/" + str(word) + ".mp3"
-                ta_tts1 = gTTS(word)
+        with st.form("myform"):
+            st.text_input("Enter a word:", key="word", max_chars=100)
+            st.text_input("Enter a spelling:", key="spelling", max_chars=100)
+            f1, f2 = st.columns([2, 2])
+            with f1:
+                submit = st.form_submit_button(label="Submit")
+            with f2:
+                clear = st.form_submit_button(label="Clear", on_click=clear_form)
+
+        if submit:
+            #if word!="":
+            try:      
+                vword = st.session_state.word
+                vspelling = st.session_state.spelling     
+                add_vocab(vword, vspelling, idTopic)
+                filename_en = "mp3/en/" + str(vword) + ".mp3"
+                ta_tts1 = gTTS(vword)
                 ta_tts1.save(filename_en)
             except:
                 st.warning("Something went wrong!")
+
+        if clear:
+            st.write('')
+        #st.warning("You can't add vocabs now!") 
+        #print(idTopic)
         st.header("Words list")
         df = pd.DataFrame(view_vocab_by_topic(idTopic), columns=['Word', 'Spelling'])         
         st.table(df)  
     elif choice=="Edit Vocabulary":
         st.subheader("Edit Vocabulary")
         #word - to choose
-        df = pd.DataFrame(get_vocab_by_topic(idTopic), columns=['Word', 'Word'])
-        df = df.sort_values(by=['Word']) 
-        vocabs = df.set_index(['Word'])['Word'].to_dict()
+        df_vocab = pd.DataFrame(get_vocab_by_topic(idTopic), columns=['ID', 'Word'])
+        df_vocab = df_vocab.sort_values(by=['Word']) 
+        vocabs = df_vocab.set_index(['ID'])['Word'].to_dict()
         
         old_word = st.selectbox("Select word:", options=vocabs, format_func=lambda x:vocabs[ x ])
-        #topic
-        df = pd.DataFrame(get_topics(), columns=['ID', 'Name'])
-        df = df.sort_values(by=['Name']) 
-        topics = df.set_index(['ID'])['Name'].to_dict()
+        if len(df_vocab.index>0):
+            #topic
+            df = pd.DataFrame(get_topics(), columns=['ID', 'Name'])
+            df = df.sort_values(by=['Name']) 
+            topics = df.set_index(['ID'])['Name'].to_dict()
+            with st.form("myform"):
+                idTopic = st.selectbox("Select topic to edit:", options=topics, format_func=lambda x:topics[ x ])
 
-        idTopic = st.selectbox("Select topic to edit:", options=topics, format_func=lambda x:topics[ x ])
-
-        word = st.text_input("Enter a word: ", max_chars=100)
-        spelling = st.text_input("Enter spelling of the word: ", max_chars=100)
+                word = st.text_input("Enter a word: ", max_chars=100)
+                spelling = st.text_input("Enter spelling of the word: ", max_chars=100)
+                f1, f2 = st.columns([2, 2])
+                with f1:
+                    submit = st.form_submit_button(label="Submit")
+                with f2:
+                    clear = st.form_submit_button(label="Clear", on_click=clear_form)
+       
+            #st.warning("You can't edit vocab now!")
         
-        #content = st_quill(value= dfContent.iloc[0]['Content'], html=True)  # Spawn a new Quill editor 
-        #st.warning("You can't edit vocab now!")
-        
-        if st.button("Edit"):
-            #newContent = content.replace('"', '###')
-            #print(newContent)
-            edit_vocab(old_word, word, spelling, idTopic)
-            filename = "mp3/" + str(word) + ".mp3"
-            if not os.path.isfile(filename):
-                ta_tts1 = gTTS(word, lang=lang)
-                ta_tts1.save(filename)
-                st.success("Saved: ".format(word))
-            st.warning("Edited: '{}'".format(idTopic))
+            if st.button("Edit"):
+                edit_vocab(old_word, word, spelling, idTopic)
+                filename = "mp3/" + str(word) + ".mp3"
+                if not os.path.isfile(filename):
+                    ta_tts1 = gTTS(word, lang=lang)
+                    ta_tts1.save(filename)
+                    st.success("Saved: ".format(word))
+                st.warning("Edited: '{}'".format(idTopic))
         
     elif choice=="Delete Vocabulary":
         st.subheader("Delete Vocabulary")
