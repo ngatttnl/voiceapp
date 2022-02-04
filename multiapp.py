@@ -75,7 +75,7 @@ class MultiApp:
                     z-index: 100;
                     top: 0;
                     left: 3rem;
-                    background-color: green;
+                    background-color: #679900;
                     padding-left: 20px;
                     padding-right: 20px;
                     padding-top: 15px;
@@ -92,7 +92,7 @@ class MultiApp:
                 .wrapMenuHeader .logoName {
                     font-size:18px;
                     font-weight: 700px;
-                    color: white;
+                    color: 0068C9";
                 }
                 .wrapMenuHeader .wrapMenu {
                     list-style: none;
@@ -100,12 +100,12 @@ class MultiApp:
                     gap: 15px;
                 }
                 .wrapMenuHeader .wrapMenu .MenuLink {
-                    color: white;
+                    color: 0068C9;
                     font-size: 16px;
                     font-weight: 700px;
                 }
                 .wrapMenuHeader .wrapMenu .MenuLink:hover {
-                    color : white;
+                    color : red;
                 }
                 .wrapMenuHeader .btnBurger {
                     position: absolute;
@@ -178,25 +178,25 @@ class MultiApp:
             <div class="wrapMenuHeader">
                 <input type="checkbox" hidden id="collapseMenuMoile">
                 <div class="wrapLogoMenu">
-                    <a href="http://thanhnga.tk" class="logoName" style="color: white;">Thanh Nga</a>
+                    <a href="http://thanhnga.tk" class="logoName" style="color: 0068C9;">Thanh Nga</a>
                     <ul class="wrapMenu">
                         <li class="menuItem">
-                            <a href="http://khuonchauthanhphuc.tk" class="MenuLink" style="color: white;" target="_blank">
+                            <a href="http://khuonchauthanhphuc.tk" class="MenuLink" style="color: #0068C9;" target="_blank">
                                 Khuôn chậu Thanh Phúc
                             </a>
                         </li>    
                         <li class="menuItem">
-                            <a href="http://bazancider.tk" style="color: white;" class="MenuLink" target="_blank">
+                            <a href="http://bazancider.tk" style="color: 0068C9;" class="MenuLink" target="_blank">
                                 Bazan cider
                             </a>
                         </li>    
                         <li class="menuItem">
-                            <a href="https://www.linguar.com/groups" style="color: white;" class="MenuLink" target="_blank">
+                            <a href="https://www.linguar.com/groups" style="color: 0068C9;" class="MenuLink" target="_blank">
                                 Language Exchange
                             </a>
                         </li>    
                         <li class="menuItem">
-                            <a href="http://thanhnga.tk" style="color: white;" class="MenuLink" target="_blank">
+                            <a href="http://thanhnga.tk" style="color: 0068C9;" class="MenuLink" target="_blank">
                                 My website
                             </a>
                         </li>            
