@@ -92,7 +92,7 @@ class MultiApp:
                 .wrapMenuHeader .logoName {
                     font-size:18px;
                     font-weight: 700px;
-                    color: white
+                    color: white;
                 }
                 .wrapMenuHeader .wrapMenu {
                     list-style: none;
@@ -105,7 +105,7 @@ class MultiApp:
                     font-weight: 700px;
                 }
                 .wrapMenuHeader .wrapMenu .MenuLink:hover {
-                    color : white
+                    color : white;
                 }
                 .wrapMenuHeader .btnBurger {
                     position: absolute;
@@ -127,7 +127,7 @@ class MultiApp:
                     font-size: 22px
                 }
                 .wrapMenuHeader .btnBurger:hover {
-                    color : white
+                    color : white;
                 }
                 input[id="collapseMenuMoile"]:checked ~ .wrapLogoMenu {
                     max-height: 100vh !important;
@@ -177,11 +177,11 @@ class MultiApp:
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
             <div class="wrapMenuHeader">
                 <input type="checkbox" hidden id="collapseMenuMoile">
-                <div class="wrapLogoMenu">
-                    <a href="http://thanhnga.tk" class="logoName">Thanh Nga</a>
+                <div class="wrapLogoMenu" style="color: white;">
+                    <a href="http://thanhnga.tk" class="logoName" style="color: white;">Thanh Nga</a>
                     <ul class="wrapMenu">
                         <li class="menuItem">
-                            <a href="http://khuonchauthanhphuc.tk" class="MenuLink" target="_blank">
+                            <a href="http://khuonchauthanhphuc.tk" class="MenuLink" style="color: white;" target="_blank">
                                 Khuôn chậu Thanh Phúc
                             </a>
                         </li>    
