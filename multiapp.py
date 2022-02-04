@@ -174,9 +174,10 @@ class MultiApp:
         """
         st.markdown(css_menu, unsafe_allow_html=True)
         ex_menu = """
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
             <div class="wrapMenuHeader">
                 <input type="checkbox" hidden id="collapseMenuMoile">
-                <div class="wrapLogoMenu" style="color: white;">
+                <div class="wrapLogoMenu">
                     <a href="http://thanhnga.tk" class="logoName" style="color: white;">Thanh Nga</a>
                     <ul class="wrapMenu">
                         <li class="menuItem">
@@ -185,17 +186,17 @@ class MultiApp:
                             </a>
                         </li>    
                         <li class="menuItem">
-                            <a href="http://bazancider.tk" class="MenuLink" target="_blank">
+                            <a href="http://bazancider.tk" style="color: white;" class="MenuLink" target="_blank">
                                 Bazan cider
                             </a>
                         </li>    
                         <li class="menuItem">
-                            <a href="https://www.linguar.com/groups" class="MenuLink" target="_blank">
+                            <a href="https://www.linguar.com/groups" style="color: white;" class="MenuLink" target="_blank">
                                 Language Exchange
                             </a>
                         </li>    
                         <li class="menuItem">
-                            <a href="http://thanhnga.tk" class="MenuLink" target="_blank">
+                            <a href="http://thanhnga.tk" style="color: white;" class="MenuLink" target="_blank">
                                 My website
                             </a>
                         </li>            
