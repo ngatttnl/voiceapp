@@ -11,8 +11,8 @@ import os.path
 
 st.cache
 def app():
-    countries = ['English', 'French', 'German', 'Korean', 'Spanish', 'Swedish', 'Italian', 'Vietnamese']
-    lang_dict = {'Korean':'ko', 'Swedish':'sv', 'English':'en', 'Vietnamese':'vi', 'German':'de', 'French':'fr', 'Spanish':'es', 'Italian':'it'}
+    countries = ['English', 'French', 'German', 'Korean', 'Spanish', 'Japanese', 'Italian', 'Vietnamese']
+    lang_dict = {'Korean':'ko', 'Japanese':'ja', 'English':'en', 'Vietnamese':'vi', 'German':'de', 'French':'fr', 'Spanish':'es', 'Italian':'it'}
     #
     to_lang = st.sidebar.selectbox('Select language', countries, list(countries).index('Vietnamese'))
     lang='en' #lang_dict[lang]
