@@ -11,8 +11,8 @@ import os
 
 st.cache
 def app():
-    countries = ['English', 'French', 'German', 'Korean', 'Spanish', 'Swedish', 'Italian', 'Vietnamese']
-    lang_dict = {'Korean':'ko', 'Swedish':'sv', 'English':'en', 'Vietnamese':'vi', 'German':'de', 'French':'fr', 'Spanish':'es', 'Italian':'it'}
+    countries = ['English', 'French', 'German', 'Korean', 'Spanish', 'Japanese', 'Italian', 'Vietnamese']
+    lang_dict = {'Korean':'ko', 'Japanese':'ja', 'English':'en', 'Vietnamese':'vi', 'German':'de', 'French':'fr', 'Spanish':'es', 'Italian':'it'}
     #
     to_lang = st.sidebar.selectbox('Select language', countries, list(countries).index('Vietnamese'))
     lang='en' #lang_dict[lang]
@@ -57,8 +57,8 @@ def app():
                         st.write(word + " /" + spelling + "/")
                     with col3:
                         filename_en = "mp3/en/" + str(word) + ".mp3"
-                        #ta_tts1 = gTTS(word)
-                        #ta_tts1.save(filename_en)
+                        ta_tts1 = gTTS(word)
+                        ta_tts1.save(filename_en)
                         audio_file1 = open(filename_en, "rb")
                         audio_bytes1 = audio_file1.read()
                         st.audio(audio_bytes1, format='audio/ogg',start_time=0)
